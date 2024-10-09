@@ -17,6 +17,12 @@ import { deleteTodo, getTodos, patchTodo } from '../api/todos-api'
 import { NewTodoInput } from './NewTodoInput'
 
 export function Todos() {
+  let todoApiDomain = `${process.env.REACT_APP_AUTH0_API_KEY}`
+  let todoPermission = {
+    readTodo: 'read:todos',
+    writeTodo: 'write:todo',
+    deleteTodo: 'delete:todo'
+  }
   function renderTodos() {
     if (loadingTodos) {
       return renderLoading()
@@ -77,8 +83,8 @@ export function Todos() {
   async function onTodoDelete(todoId) {
     try {
       const accessToken = await getAccessTokenSilently({
-        audience: `https://test-endpoint.auth0.com/api/v2/`,
-        scope: 'delete:todo'
+        audience: todoApiDomain,
+        scope: todoPermission.deleteTodo
       })
       await deleteTodo(accessToken, todoId)
       setTodos(todos.filter((todo) => todo.todoId !== todoId))
@@ -91,8 +97,8 @@ export function Todos() {
     try {
       const todo = todos[pos]
       const accessToken = await getAccessTokenSilently({
-        audience: `https://test-endpoint.auth0.com/api/v2/`,
-        scope: 'write:todo'
+        audience: todoApiDomain,
+        scope: todoPermission.writeTodo
       })
       await patchTodo(accessToken, todo.todoId, {
         name: todo.name,
@@ -128,8 +134,8 @@ export function Todos() {
     async function foo() {
       try {
         const accessToken = await getAccessTokenSilently({
-          audience: `https://test-endpoint.auth0.com/api/v2/`,
-          scope: 'read:todos'
+          audience: todoApiDomain,
+          scope: todoPermission.readTodo
         })
         console.log('Access token: ' + accessToken)
         const todos = await getTodos(accessToken)

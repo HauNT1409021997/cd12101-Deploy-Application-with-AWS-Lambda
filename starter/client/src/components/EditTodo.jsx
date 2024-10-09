@@ -43,10 +43,10 @@ export function EditTodo() {
 
       setUploadState(UploadState.FetchingPresignedUrl)
       const accessToken = await getAccessTokenSilently({
-        audience: `https://test-endpoint.auth0.com/api/v2/`,
+        audience: `${process.env.REACT_APP_AUTH0_API_KEY}`,
         scope: 'write:todos'
       })
-      const uploadUrl = await getUploadUrl(accessToken, todoId)
+      const uploadUrl = await getUploadUrl(accessToken, todoId, file)
 
       setUploadState(UploadState.UploadingFile)
       await uploadFile(uploadUrl, file)

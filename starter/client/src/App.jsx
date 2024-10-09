@@ -24,7 +24,10 @@ export default function App() {
   function logInLogOutButton() {
     if (isAuthenticated) {
       return (
-        <Menu.Item name="logout" onClick={() => logout({ returnTo: window.location.origin })}>
+        <Menu.Item
+          name="logout"
+          onClick={() => logout({ returnTo: window.location.origin })}
+        >
           Log Out
         </Menu.Item>
       )
