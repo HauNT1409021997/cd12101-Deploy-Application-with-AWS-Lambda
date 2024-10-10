@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Update Todo",
+  "type": "object",
+  "properties": {
+    "dueDate": {
+      "type": "string",
+      "minLength": 1
+    },
+    "done": {
+      "type": "boolean",
+      "minLength": 1
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": ["name", "done", "dueDate"],
+  "additionalProperties": false
+}

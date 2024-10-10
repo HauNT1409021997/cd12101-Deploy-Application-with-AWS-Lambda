@@ -5,11 +5,20 @@ import winston from 'winston'
  *
  * @param loggerName - a name of a logger that will be added to all messages
  */
-export function createLogger(loggerName) {
+export default function createLogger(loggerName, logLevel = 'info') {
+  const logDir = '/tmp/logs'
+
   return winston.createLogger({
-    level: 'info',
+    level: logLevel,
     format: winston.format.json(),
     defaultMeta: { name: loggerName },
-    transports: [new winston.transports.Console()]
+    transports: [
+      new winston.transports.Console(),
+      new winston.transports.File({ filename: `${logDir}/app.log` }),
+      new winston.transports.File({
+        filename: `${logDir}/error.log`,
+        level: 'error'
+      })
+    ]
   })
 }
